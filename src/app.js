@@ -14,7 +14,7 @@ function addMessageUser1(){
     }
 
     let messageArray = JSON.parse(localStorage.getItem('mess1')) || [];
-    messageArray.unshift(messageObj);
+    messageArray.push(messageObj);
     localStorage.setItem("mess1", JSON.stringify(messageArray));
     displayMessages2()
 }
@@ -29,7 +29,7 @@ function addMessageUser2(){
     }
 
     let messageArray = JSON.parse(localStorage.getItem('mess2')) || [];
-    messageArray.unshift(messageObj);
+    messageArray.push(messageObj);
     localStorage.setItem("mess2", JSON.stringify(messageArray));
     displayMessages1()
 }
