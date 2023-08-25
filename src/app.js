@@ -1,65 +1,82 @@
-const chatBox = document.querySelectorAll('.chat-box');
-const sendBtn = document.querySelectorAll('button');
-const nameInput = document.querySelectorAll('.name-input');
-const messageInput = document.querySelectorAll('.message-input');
 
-function addMessage(nameInputElem, messageInputElem, storageKey, chatBoxElem) {
-    let name = nameInputElem.value;
-    let message = messageInputElem.value;
+const chatBox = document.querySelectorAll('.chat-box')
+const sendBtn = document.querySelectorAll('button')
+const nameInput = document.querySelectorAll('.name-input')
+const messageInput = document.querySelectorAll('.message-input')
+
+function addMessageUser1(){
+    let name = nameInput[0].value
+    let message = messageInput[0].value
 
     let messageObj = {
         name: name,
         message: message
     }
 
-    let messageArray = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let messageArray = JSON.parse(localStorage.getItem('mess1')) || [];
     messageArray.push(messageObj);
-    localStorage.setItem(storageKey, JSON.stringify(messageArray));
-
-    nameInputElem.value = '';
-    messageInputElem.value = '';
-
-    displayMessages(storageKey, chatBoxElem);
+    localStorage.setItem("mess1", JSON.stringify(messageArray));
+    nameInput[0].value = ''
+    messageInput[0].value = ''
+    displayMessages1()
+    displayMessages2()
+    
 }
 
-function displayMessages(storageKey, chatBoxElem) {
-    chatBoxElem.innerHTML = "";
+function addMessageUser2(){
+    let name = nameInput[1].value
+    let message = messageInput[1].value
 
-    let messageArray = JSON.parse(localStorage.getItem(storageKey)) || [];
+    let messageObj = {
+        name: name,
+        message: message
+    }
+
+    let messageArray = JSON.parse(localStorage.getItem('mess2')) || [];
+    messageArray.push(messageObj);
+    localStorage.setItem("mess2", JSON.stringify(messageArray));
+    nameInput[1].value = ''
+    messageInput[1].value = ''
+    displayMessages1()
+    displayMessages2()
+}
+
+function displayMessages1() {
+    chatBox[1].innerHTML = "";
+
+    let messageArray = JSON.parse(localStorage.getItem('mess1'))
 
     messageArray.forEach(message => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('message');
         messageElement.innerHTML = `<strong>${message.name}:</strong> ${message.message}`;
-        chatBoxElem.appendChild(messageElement);
+        chatBox[1].appendChild(messageElement);
     });
 }
 
-sendBtn[0].addEventListener('click', () => {
-    addMessage(nameInput[0], messageInput[0], 'mess1', chatBox[1]);
-});
+function displayMessages2() {
+    chatBox[0].innerHTML = "";
 
-sendBtn[1].addEventListener('click', () => {
-    addMessage(nameInput[1], messageInput[1], 'mess2', chatBox[0]);
-});
+    let messageArray = JSON.parse(localStorage.getItem('mess2'))
 
-window.addEventListener('DOMContentLoaded', () => {
-    displayMessages('mess1', chatBox[1]);
-    displayMessages('mess2', chatBox[0]);
-});
+    messageArray.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message');
+        messageElement.innerHTML = `<strong>${message.name}:</strong> ${message.message}`;
+        chatBox[0].appendChild(messageElement);
+    });
+}
 
-nameInput[0].addEventListener('input', () => {
-    displayMessages('mess1', chatBox[1]);
-});
+sendBtn[0].addEventListener('click',()=>{
+    addMessageUser1()
+    
+})
+sendBtn[1].addEventListener('click',()=>{
+    addMessageUser2()
+    
+})
 
-nameInput[1].addEventListener('input', () => {
-    displayMessages('mess2', chatBox[0]);
-});
-
-messageInput[0].addEventListener('input', () => {
-    displayMessages('mess1', chatBox[1]);
-});
-
-messageInput[1].addEventListener('input', () => {
-    displayMessages('mess2', chatBox[0]);
-});
+window.addEventListener('DOMContentLoaded',() =>{
+    displayMessages1()
+    displayMessages2()
+})
